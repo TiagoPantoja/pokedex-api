@@ -1,8 +1,81 @@
-# pokemon-resource
+# Pokédex API
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Esta é uma API RESTful utilizando Java e o framework Quarkus. A aplicação permite buscar, listar, salvar e buscar detalhes de Pokémons usando a PokéAPI.
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+## Como executar o projeto
+### Requisitos
+- Docker
+- Docker Compose
+- Java 17 ou 21
+- Maven
+- Quarkus
+
+### Instruções
+1. Clone este repositório:
+```
+git clone https://github.com/TiagoPantoja/pokedex-api.git
+```
+
+2. Digite o comando:
+```
+cd pokedex-api
+```
+Para acessar a pasta raiz do projeto
+
+2. Execute o Docker Compose para subir o banco de dados PostgreSQL e a aplicação Quarkus:
+```
+docker-compose up -d
+```
+
+3. Construa e execute a aplicação Quarkus:
+```
+./mvnw clean package -Pnative
+docker build -f Dockerfile -t quarkus/pokemon-resource .
+docker run -i --rm -p 8080:8080 quarkus/pokemon-resource
+```
+
+4. Acesse a API: http://localhost:8080.
+
+###Endpoints
+### GET /pokemon/{id}
+Obtém detalhes de um Pokémon pelo ID.
+
+**Exemplo:**
+```
+curl http://localhost:8080/pokemon/25
+```
+
+### GET /pokemon
+Obtém a lista de todos os Pokémons.
+
+**Exemplo:**
+```
+curl http://localhost:8080/pokemon
+```
+
+### POST /pokemon
+Salva um novo Pokémon.
+
+**Exemplo:**
+```
+curl -X POST -H "Content-Type: application/json" -d '{"name": "TestPokemon", "pokemonId": 999, "sprite": "https://example.com/image.png", "height": 1.0, "weight": 1.0}' http://localhost:8080/pokemon
+```
+
+### GET /pokemon/search?nameOrId={nameOrId}
+Busca um Pokémon por nome ou ID.
+
+**Exemplo:**
+```
+curl http://localhost:8080/pokemon/search?nameOrId=pikachu
+```
+
+### Testes
+A aplicação inclui testes de integração para garantir o correto funcionamento dos endpoints.
+
+Para executar os testes:
+```
+./mvnw test
+```
 
 ## Running the application in dev mode
 
